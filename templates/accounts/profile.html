@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Thông tin cá nhân - Snack Shop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">Thông tin cá nhân</h2>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Cập nhật
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5>Thống kê</h5>
+                    <hr>
+                    <p><strong>Tổng đơn hàng:</strong> {{ total_orders }}</p>
+                    <p><strong>Tổng chi tiêu:</strong> {{ total_spent|floatformat:0 }}₫</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

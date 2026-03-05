@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - Snack Shop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="img-fluid rounded shadow" alt="{{ product.name }}">
+            {% else %}
+            <div class="bg-secondary d-flex align-items-center justify-content-center rounded shadow" style="height: 400px;">
+                <i class="fas fa-image fa-5x text-white"></i>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="col-md-6">
+            <h1 class="mb-3">{{ product.name }}</h1>
+            <p class="lead text-muted">{{ product.description }}</p>
+            
+            <div class="mb-4">
+                <span class="badge bg-secondary">{{ product.category.name }}</span>
+            </div>
+            
+            <h2 class="text-primary mb-4">{{ product.price|floatformat:0 }}₫</h2>
+            
+            <form method="post" action="{% url 'orders:add_to_cart' product.id %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Số lượng:</label>
+                    <input type="number" name="quantity" value="1" min="1" class="form-control" style="width: 100px;">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Sản phẩm liên quan -->
+    {% if related_products %}
+    <div class="mt-5">
+        <h3 class="mb-4">Sản phẩm liên quan</h3>
+        <div class="row">
+            {% for related in related_products %}
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="card h-100">
+                    {% if related.image %}
+                    <img src="{{ related.image.url }}" class="card-img-top" alt="{{ related.name }}" style="height: 150px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h6 class="card-title">{{ related.name }}</h6>
+                        <p class="text-primary">{{ related.price|floatformat:0 }}₫</p>
+                        <a href="{% url 'products:detail' related.slug %}" class="btn btn-sm btn-outline-primary">Xem</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Giỏ hàng - Snack Shop{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">Giỏ hàng của bạn</h2>
+    
+    {% if cart_items %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.get_price|floatformat:0 }}₫</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.subtotal|floatformat:0 }}₫</td>
+                    <td>
+                        <form method="post" action="{% url 'orders:update_cart' item.id %}" 
+                              style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="remove">
+                            <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Tổng đơn hàng</h5>
+                    <p>Tạm tính: {{ subtotal|floatformat:0 }}₫</p>
+                    <p>Phí ship: {{ shipping_fee|floatformat:0 }}₫</p>
+                    <h4>Tổng: {{ total|floatformat:0 }}₫</h4>
+                    
+                    <a href="{% url 'orders:checkout' %}" class="btn btn-primary w-100">
+                        Thanh toán
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-center">Giỏ hàng trống</p>
+    <div class="text-center">
+        <a href="{% url 'products:list' %}" class="btn btn-primary">
+            Tiếp tục mua sắm
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

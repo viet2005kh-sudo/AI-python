@@ -1,0 +1,143 @@
+<div class="container my-5">
+    <h1 class="mb-4">
+        <i class="fas fa-chart-line"></i> Bảng điều khiển quản trị
+    </h1>
+
+    <!-- Thống kê tổng quan -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Tổng doanh thu</h5>
+                    <h2>{{ total_revenue|floatformat:0|default:0 }}₫</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Đơn hàng</h5>
+                    <h2>{{ total_orders|default:0 }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Sản phẩm</h5>
+                    <h2>{{ total_products|default:0 }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Người dùng</h5>
+                    <h2>{{ total_users|default:0 }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Đơn hàng gần đây -->
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Đơn hàng gần đây</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_orders %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Khách hàng</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày đặt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in recent_orders %}
+                                <tr>
+                                    <td>#{{ order.id }}</td>
+                                    <td>{{ order.user.email }}</td>
+                                    <td>{{ order.total_amount|floatformat:0 }}₫</td>
+                                    <td>
+                                        <span class="badge bg-info">{{ order.status }}</span>
+                                    </td>
+                                    <td>{{ order.created_at|date:"d/m/Y H:i" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-center text-muted">Chưa có đơn hàng nào</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Liên kết quản lý -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Quản lý nhanh</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3 mb-3">
+                            <a href="/admin/products/product/add/" class="btn btn-outline-primary btn-lg w-100">
+                                <i class="fas fa-plus-circle fa-2x d-block mb-2"></i>
+                                Thêm sản phẩm
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="/admin/products/category/" class="btn btn-outline-success btn-lg w-100">
+                                <i class="fas fa-list fa-2x d-block mb-2"></i>
+                                Danh mục
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="/admin/orders/order/" class="btn btn-outline-info btn-lg w-100">
+                                <i class="fas fa-shopping-cart fa-2x d-block mb-2"></i>
+                                Đơn hàng
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="/admin/accounts/customuser/" class="btn btn-outline-warning btn-lg w-100">
+                                <i class="fas fa-users fa-2x d-block mb-2"></i>
+                                Người dùng
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+```
+
+## Bước 2: Kiểm tra cấu trúc thư mục
+
+Đảm bảo cấu trúc như sau:
+```
+D:\AI python\
+├── templates\
+│   ├── base.html
+│   ├── core\
+│   │   ├── home.html
+│   │   └── admin_dashboard.html  ← File này phải tồn tại
+│   └── products\
+│       ├── list.html
+│       ├── category.html
+│       └── detail.html
