@@ -1,0 +1,40 @@
+snack_shop/
+│
+├── app/
+│   ├── models/              # Model (xử lý dữ liệu)
+│   │   ├── user.py
+│   │   ├── product.py
+│   │   ├── order.py
+│   │   └── __init__.py
+│   │
+│   ├── views/               # View (giao diện)
+│   │   ├── templates/
+│   │   │   ├── home.html
+│   │   │   ├── product.html
+│   │   │   ├── cart.html
+│   │   │   └── admin.html
+│   │   └── static/
+│   │       ├── css/
+│   │       ├── js/
+│   │       └── images/
+│   │
+│   ├── controllers/         # Controller (xử lý logic)
+│   │   ├── auth_controller.py
+│   │   ├── product_controller.py
+│   │   ├── order_controller.py
+│   │   └── __init__.py
+│   │
+│   ├── config.py            # Cấu hình hệ thống
+│   └── __init__.py
+│
+├── database/
+│   └── db.sqlite3           # Cơ sở dữ liệu
+│
+├── migrations/              # Quản lý version DB (nếu có)
+│
+├── run.py                   # File chạy ứng dụng
+├── requirements.txt         # Thư viện cần cài
+└── README.md                # Mô tả dự án
+
+
+
